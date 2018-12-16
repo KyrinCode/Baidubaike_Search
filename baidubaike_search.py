@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#Author: EriCode-W
 
 import re
 import bs4
