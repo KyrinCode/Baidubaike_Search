@@ -20,24 +20,33 @@ def getHTMLtext(url):
 def search(html, search_item):
     try:
         soup = BeautifulSoup(html, 'html.parser')
-        text = soup.find('div', class_="lemma-summary").children
-        print("search result:")
-        for x in text:
-            word = re.sub(re.compile(r"<(.+?)>"),'',str(x))
-            words = re.sub(re.compile(r"\[(.+?)\]"),'',word)
-            print(words,'\n')
+        summary = soup.find('div', class_="lemma-summary")
+        if summary:
+            text = summary.children
+            print("search result:")
+            for x in text:
+                word = re.sub(re.compile(r"<(.+?)>"),'',str(x))
+                words = re.sub(re.compile(r"\[(.+?)\]"),'',word)
+                print(words,'\n')
+            polysemant = soup.find('div', class_='before-content')
+            class_name = 'item'
+            list_front = 1
+        else:            
+            polysemant = soup.find('ul', class_='custom_dot para-list list-paddingleft-1')
+            class_name = 'list-dot list-dot-paddingleft'
+            list_front = 0
     except AttributeError:
         print("Failed!Please enter more in details!")
     else:
-        polysemant = soup.find('div', class_='before-content')
         if polysemant:
             candidates = {}
-            polysemant_list = polysemant.find_all('li', class_='item')
-            for item in polysemant_list[1:]:
+            polysemant_list = polysemant.find_all('li', class_=class_name)
+            for item in polysemant_list[list_front:]:
                 name = item.find('a').string
                 href = item.find('a').get('href')
                 candidates[name] = href
             polysemant_case(candidates, search_item)
+        
 
 def poly_search(html):
     soup = BeautifulSoup(html, 'html.parser')
