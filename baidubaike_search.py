@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-#Author: EriCode-W
+#!/usr/bin/env python
 
 import re
 import bs4
@@ -59,7 +58,7 @@ def poly_search(html):
 
 def polysemant_case(candidates, search_item):
     if candidates:
-        polyflag = input(search_item + "is a polysemant.\nIf this is not the meaning you want, press 'p': ")
+        polyflag = input(search_item + " is a polysemant.\nIf this is not the meaning you want, press 'p': ")
         if polyflag == 'p':
             count = 0
             for k in candidates.keys():
