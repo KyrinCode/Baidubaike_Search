@@ -22,7 +22,7 @@ def search(html, search_item):
         summary = soup.find('div', class_="lemma-summary")
         if summary:
             text = summary.children
-            print("search result:")
+            # print("\nsearch result:")
             for x in text:
                 word = re.sub(re.compile(r"<(.+?)>"),'',str(x))
                 words = re.sub(re.compile(r"\[(.+?)\]"),'',word)
@@ -35,7 +35,7 @@ def search(html, search_item):
             class_name = 'list-dot list-dot-paddingleft'
             list_front = 0
     except AttributeError:
-        print("Failed!Please enter more in details!")
+        print("\nFailed!Please enter more in details!")
     else:
         if polysemant:
             candidates = {}
@@ -50,7 +50,7 @@ def search(html, search_item):
 def poly_search(html):
     soup = BeautifulSoup(html, 'html.parser')
     text = soup.find('div', class_="lemma-summary").children
-    print("search result:")
+    # print("\search result:")
     for x in text:
         word = re.sub(re.compile(r"<(.+?)>"),'',str(x))
         words = re.sub(re.compile(r"\[(.+?)\]"),'',word)
@@ -64,7 +64,7 @@ def polysemant_case(candidates, search_item):
             for k in candidates.keys():
                 count += 1
                 print(("{0:^3}. " + k).format(count))
-            polynum = int(input("choose the number: "))
+            polynum = int(input("\nChoose a number: "))
             count = 0
             for k in candidates.keys():
                 count += 1
@@ -74,11 +74,12 @@ def polysemant_case(candidates, search_item):
                     break
 
 if __name__ == "__main__":
-    search_item = input("Enter what you want ('q' to exit): ")
-    if search_item == 'q':
-        exit(0)
-    print("please wait...")
+    while(True):
+        search_item = input("Search: ")
+        if search_item in ["q", "exit"]:
+            break
+        print("\nloading...\n")
 
-    url = 'https://baike.baidu.com/item/' + search_item
-    html = getHTMLtext(url)
-    search(html, search_item)
+        url = 'https://baike.baidu.com/item/' + search_item
+        html = getHTMLtext(url)
+        search(html, search_item)
